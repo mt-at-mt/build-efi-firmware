@@ -39,6 +39,11 @@ OPTEE_EXAMPLES_PATH		?= $(ROOT)/optee_examples
 OPTEE_RUST_PATH			?= $(ROOT)/optee_rust
 BUILDROOT_TARGET_ROOT		?= $(ROOT)/out-br/target
 
+# EDK2
+EDK2_PATH			?= $(ROOT)/edk2
+EDK2_PLATFORMS_PATH		?= $(ROOT)/edk2-platforms
+EDK2_ACTIVE_PLATFORM		?= "Platform/StandaloneMm/PlatformStandaloneMmPkg/PlatformStandaloneMmRpmb.dsc"
+
 # default high verbosity. slow uarts shall specify lower if prefered
 CFG_TEE_CORE_LOG_LEVEL		?= 3
 
@@ -400,6 +405,7 @@ linux-cleaner-common: linux-defconfig-clean
 .PHONY: edk2-common
 edk2-common:
 	$(call edk2-env) && \
+	export WORKSPACE=$(ROOT) && \
 	export PACKAGES_PATH=$(EDK2_PATH):$(EDK2_PLATFORMS_PATH) && \
 	source $(EDK2_PATH)/edksetup.sh && \
 	$(MAKE) -j1 -C $(EDK2_PATH)/BaseTools && \

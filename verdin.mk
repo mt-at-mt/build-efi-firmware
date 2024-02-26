@@ -133,6 +133,19 @@ arm-tf-clean:
 	cd $(TF_A_PATH) && git clean -xdf
 
 ################################################################################
+# EDK2 / Tianocore / eMMC RPMB Module for OP-TEE
+################################################################################
+define edk2-env
+    export WORKSPACE=$(ROOT)
+endef
+
+define edk2-call
+    $(EDK2_TOOLCHAIN)_$(EDK2_ARCH)_PREFIX=$(AARCH64_CROSS_COMPILE) \
+    build -n `getconf _NPROCESSORS_ONLN` -a $(EDK2_ARCH) \
+        -t $(EDK2_TOOLCHAIN) -p Platform/StandaloneMm/PlatformStandaloneMmPkg/PlatformStandaloneMmRpmb.dsc -b $(EDK2_BUILD)
+endef
+
+################################################################################
 # OP-TEE
 ################################################################################
 OPTEE_OS_COMMON_FLAGS += PLATFORM=imx \
@@ -165,7 +178,7 @@ OPTEE_OS_COMMON_FLAGS += PLATFORM=imx \
 OPTEE_OS_CLEAN_COMMON_FLAGS += PLATFORM=imx-mx8mmevk
 
 .PHONY: optee-os
-optee-os: optee-os-common
+optee-os: edk2-common optee-os-common
 
 .PHONY: optee-os-clean
 optee-os-clean: edk2-clean-common optee-os-clean-common
