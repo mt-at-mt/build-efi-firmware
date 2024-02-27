@@ -573,7 +573,7 @@ OPTEE_OS_COMMON_FLAGS ?= \
 	CFG_IN_TREE_EARLY_TAS="$(CFG_IN_TREE_EARLY_TAS)"
 
 .PHONY: optee-os-common
-optee-os-common:
+optee-os-common: ftpm
 	$(MAKE) -C $(OPTEE_OS_PATH) $(OPTEE_OS_COMMON_FLAGS)
 
 .PHONY: optee-os-clean-common
