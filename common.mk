@@ -592,11 +592,15 @@ optee-os-devkit:
 # system is built to run on 64-bit mode (COMPILE_S_USER = 64). Therefore set
 # TA_DEV_KIT_DIR manually to the arm32 OPTEE toolkit rather than relying on
 # OPTEE_OS_TA_DEV_KIT_DIR variable.
-FTPM_FLAGS ?= 						\
+FTPM_FLAGS ?= \
 	TA_CPU=cortex-a9				\
 	TA_CROSS_COMPILE=$(AARCH32_CROSS_COMPILE)	\
 	TA_DEV_KIT_DIR=$(OPTEE_OS_PATH)/out/arm/export-ta_arm32 \
-	CFG_TEE_TA_LOG_LEVEL=$(CFG_TEE_CORE_LOG_LEVEL) CFG_TA_MEASURED_BOOT=y CFG_TA_FTPM_RPMB_STORAGE=y
+	CFG_TEE_TA_LOG_LEVEL=$(CFG_TEE_CORE_LOG_LEVEL) CFG_TA_FTPM_RPMB_STORAGE=y
+
+ifeq ($(MEASURED_BOOT_FTPM),y)
+FTPM_FLAGS	+= CFG_TA_MEASURED_BOOT=y
+endif
 
 .PHONY: ftpm
 ftpm:
