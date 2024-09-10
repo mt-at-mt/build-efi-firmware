@@ -1,0 +1,17 @@
+uuu_version 1.2.39
+
+# LOAD U-BOOT VIA USB SERIAL (UUU)
+SDP: boot -f flash.bin
+SDPV: delay 1000
+SDPV: write -f flash.bin -skipspl
+SDPV: jump
+
+# CONFIGURE USB IDs
+CFG: FB: -vid 0x0525 -pid 0x4000
+CFG: FB: -vid 0x0525 -pid 0x4037
+CFG: FB: -vid 0x0525 -pid 0x4039
+CFG: FB: -vid 0x0525 -pid 0x403b
+CFG: FB: -vid 0x0525 -pid 0x403c
+CFG: FB: -vid 0x0525 -pid 0x4044
+
+FB: ucmd tpm2 init; bootefi bootmgr
